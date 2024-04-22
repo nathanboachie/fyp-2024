@@ -1,0 +1,87 @@
+#FTNCHEK = /software/aero/bin/sun4/ftnchek
+#FDEP = /software/aero/bin/fdep
+FTNCHEK = ftnchek
+FDEP = ./fdep
+
+FC = gfortran
+#FC = g77
+
+# Modify FFLAGS as desired
+## -C or -check bounds checks array sizes
+## -O3 enables optimization
+## -g enables debugging information
+## -fcheck=all enables runtime checks for all errors
+## -Wall enables most warning messages
+## -I../include includes the ../include directory for header files
+## -lm links the math library
+## -fno-automatic disables automatic allocation of local variables
+## -fno-range-check disables range checking
+## -std=legacy enables legacy Fortran standard
+FFLAGS = -C -O3 -g -fcheck=all -Wall -I../include -lm -fno-automatic -fno-range-check -std=legacy
+
+# CHFLAGS: flags for FTNCHEK
+CHFLAGS = -sixchar -usage=331 -array=3
+
+.SUFFIXES:
+.SUFFIXES: .f .f90 .o .d
+
+# Rule to compile .f files into object files
+%.o: %.f
+	$(FC) $(FFLAGS) -c -o $@ $<
+
+# Rule to compile .f90 files into object files
+%.o: %.f90
+	$(FC) $(FFLAGS) -c -o $@ $<
+
+# Rule to generate dependency files for .f files
+%.d: %.f
+	$(FDEP) $< > $@
+
+# Rule to generate dependency files for .f90 files
+%.d: %.f90
+	$(FDEP) $< > $@
+
+# Edit the SOURCES list as desired
+SOURCES_F77 = FREEWAKE.f wake.f rotor.f bcp.f blade.f \
+			  pwake.f ftor.f wlsolve.f rsp.f \
+			  prej.f trimtest.f ctrlsolve.f vortex.f \
+			  bvind.f centroid.f corr.f gridseq.f gsassign.f \
+			  indv.f l2norm.f march.f pred.f rtof.f \
+			  sbind.f svind.f udgeom.f vbind.f vinterp.f vvind.f \
+			  wrtscr.f wrtwke.f jacobian.f aoa.f\
+			  unsteady_aero.f nwind.f isa.f\
+			  wrtgb.f velox.f veloy.f veloz.f vorp.f\
+			  readwake.f wrtwkmb.f readgb.f \
+			  timepc.f pipcab.f indvab.f predab.f corrab.f\
+			  farwake.f wrtgbmb.f vinterpe.f\
+			  vinterpi.f strainmb.f controll.f\
+			  momentum.f rindvt.f avgiflow.f prescr.f planf.f\
+			  airfoil.f flappred.f flapcorr.f rindvtpsi.f\
+			  ftorpsi.f aoapsi.f airfoilpsi.f rsppsi.f\
+			  rtofpsi.f bcppsi.f vortexpsi.f myerf.f beddoesa.f\
+			  pnpoly.f
+
+SOURCES_F90 = ml_coord.f90 pnpoly3d.f90 in2out.f90\
+				wake_pertub.f90 ml_inv.f90
+
+# Combine the object files for both .f and .f90 sources
+OBJECTS_F77 = $(SOURCES_F77:.f=.o)
+OBJECTS_F90 = $(SOURCES_F90:.f90=.o)
+
+# Combine the dependency files for both .f and .f90 sources
+DEPENDS_F77 = $(SOURCES_F77:.f=.d)
+DEPENDS_F90 = $(SOURCES_F90:.f90=.d)
+
+# Target to build the executable
+mfw: $(OBJECTS_F77) $(OBJECTS_F90)
+	$(FC) $(FFLAGS) -o mfw $(OBJECTS_F77) $(OBJECTS_F90)
+
+# Include the dependency files
+-include $(DEPENDS_F77) $(DEPENDS_F90)
+
+# Target to clean up object files, dependency files, and the executable
+clean:
+	rm -f mfw
+	rm -f $(OBJECTS_F77) $(OBJECTS_F90)
+	rm -f $(DEPENDS_F77) $(DEPENDS_F90)
+

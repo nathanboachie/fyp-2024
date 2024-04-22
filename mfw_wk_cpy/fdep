@@ -1,0 +1,47 @@
+#!/bin/csh -f 
+#
+# Generate dependency lines for use in makefiles. 
+#
+# J.M., 1994-96, GNU, good luck!
+
+# Usage: fdep [ filename1, filename2 ... ]
+# filenames are optional. Wildcards allowed, e.g. fdep um*.f
+# If no files are given on command line all *.f and *.inc files
+# in the working directory are examined. Other files too, if you want
+# (see below)
+# Doesn't look for include files within include files.
+
+# Make up list of files to check:
+
+if ($#argv == 0) then
+  set filelist = (*.f)  #  Default list if no files given on command line.
+else
+  set filelist = ($argv)      #  Check files specified on command line. 
+endif
+
+# Checking starts here:
+
+foreach file ($filelist)
+
+# Tabs screw us up and you shouldn't use them anyway.
+#   if ( `grep -c '	' $file` ) then
+#      /bin/sh -c 'echo "Found a tab in ${file}." >&2'  
+#      exit (1)
+#   endif
+
+# Make list of files on which $file depends:
+   set list=(`egrep -i "^ *include *'.*'" $file | awk -F\' '{print $2}' | sort -u`)
+
+# Print out dependency lines:
+
+  set object=${file:t}
+  set object=${object:r}.o
+  set depend=${object:r}.d
+  set project=${object:r}.prj
+# first line:
+  printf '%s' "${object} ${depend} ${project}: $file:t "
+  if ( "$list" != "" ) printf '\\\n ../include/%s' $list
+  printf '\n'
+
+end
+

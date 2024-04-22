@@ -1,0 +1,93 @@
+#FTNCHEK = /software/aero/bin/sun4/ftnchek
+#FDEP = /software/aero/bin/fdep
+#FTNCHEK = ftnchek
+#FDEP = ./fdep
+
+FC = gfortran
+#FC = g77
+
+# modify FFLAGS as desired  (e.g. remove -C and use -O for fast runs)
+## -convert big_endian is for unformatted i/o for DEC
+## -tune ev5 -fast -O5 are for optimizing... on DEC
+## -warn argument_checking checks for subroutine arguments
+## -warn declarations or -u checks for undeclared vars
+## -r8 compiles in Double Precision i.e. REAL*8
+## -C or -check bounds checks array sizes
+## -fpe0 will stop on floating pt exceptions except for underflows (=0)
+## -fpe1 will continue with floating pt exceptions setting underflows =0
+## -check underflow will issue warning
+## -fast may have possible problems???
+#FFLAGS = -warn argument_checking -check bounds 
+FFLAGS = -C -O3 -g -fcheck=all -Wall -I../include -lm -fno-automatic -fno-range-check
+#-ff90
+
+#CHFLAGS --> flags for FTNCHEK
+CHFLAGS = -sixchar -usage=331 -array=3
+
+.SUFFIXES:
+.SUFFIXES: .f .o .d
+
+%.o: %.f
+	$(FC) $(FFLAGS) -c -o $@ $<
+#%.d: %.f
+#	$(FDEP) $< > $@
+
+ 
+# edit the SOURCES list as desired.
+SOURCES = FREEWAKE.f wake.f rotor.f bcp.f blade.f \
+	  pwake.f ftor.f wlsolve.f rsp.f \
+	  prej.f trimtest.f ctrlsolve.f vortex.f \
+	  bvind.f centroid.f corr.f gridseq.f gsassign.f \
+	  indv.f l2norm.f march.f pred.f  rtof.f \
+	  sbind.f svind.f udgeom.f vbind.f vinterp.f vvind.f \
+	   wrtscr.f wrtwke.f jacobian.f aoa.f\
+	  unsteady_aero.f nwind.f isa.f\
+	  wrtgb.f velox.f veloy.f veloz.f vorp.f\
+        readwake.f wrtwkmb.f readgb.f \
+        timepc.f pipcab.f indvab.f predab.f corrab.f\
+        farwake.f wrtgbmb.f vinterpe.f\
+        vinterpi.f strainmb.f controll.f\
+        momentum.f rindvt.f avgiflow.f prescr.f planf.f\
+        airfoil.f flappred.f flapcorr.f rindvtpsi.f\
+        ftorpsi.f aoapsi.f airfoilpsi.f rsppsi.f\
+        rtofpsi.f bcppsi.f vortexpsi.f myerf.f beddoesa.f
+OBJECTS = $(SOURCES:.f=.o)
+#DEPENDS = $(SOURCES:.f=.d)
+
+PRESOURCE = PREWAKE2.f
+PREOBJ = $(PRESOURCE:.f=.o)
+#PREDEP = $(PRESOURCE:.f=.d)
+
+CHECKOUT = Check.out
+
+# there must be a TAB at beginning of "F77" line.
+
+mfw: $(OBJECTS)
+	$(FC) $(FFLAGS) -o mfw $(OBJECTS)
+
+# include $(DEPENDS)
+
+
+
+clean:
+	rm -f mfw
+	rm -f $(OBJECTS)
+#	rm -f $(DEPENDS)
+
+#CHEKCLEAN:
+#	$(RM) $(CHECKOUT)
+
+#chek: $(DEPENDS) $(CHECKCLEAN)
+#	$(FTNCHEK) $(CHFLAGS) $(SOURCES) > $(CHECKOUT)
+
+#$(PREOBJ): $(PREDEP) $(PRESOURCE)
+#	$(FC) $(FFLAGS) -c -o $@ $(PRESOURCE)
+
+#PREWAKE: $(PREOBJ)
+#	$(FC) -o $@ $(FFLAGS) $(PREOBJ)
+
+DP:
+	REALtoDOUBLE_PRECISION $(PRESOURCE) $(SOURCES)
+
+SP:
+	DOUBLE_PRECISIONtoREAL $(PRESOURCE) $(SOURCES)

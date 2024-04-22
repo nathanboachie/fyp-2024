@@ -1,0 +1,109 @@
+C-$	$Id: corr.f,v 1.1.1.1.6.1 2005/03/10 18:49:33 shreyas Exp $	
+
+      subroutine corr(nr,np,nw,pw,nz,nzt,nk,dp,dz,pif,zif,rad,om,rbc,
+     $     zbc,avgzbc,lami,gv,rr_x,rr_y,rr_z,vinfx,vinfy,vinfz, rpar
+     $     ,vipx,vipy,vipz,ppx,ppy,ppz,vicx,vicy,vicz,pcx,pcy,pcz,p,zen)
+
+C-$   Corrector step for the wake control points (PC2B scheme)
+
+      IMPLICIT none
+
+      include 'adimpar.inc'
+      include 'kdimpar.inc'
+      include 'rdimpar.inc'
+      include 'wdimpar.inc'
+      include 'zdimpar.inc'
+
+      INTEGER nr,np,nw,pw,nz,nzt,pif,zif,r,w,z,p,p1,p2,z1,k,nk,p3,chi
+
+      DOUBLE PRECISION dp,dz,rad,om,rbc(rdim,wdim),zbc(rdim,wdim),
+     $     avgzbc(rdim,wdim), vinfx,vinfy,vinfz,dp1,dz1, vx,vy,vz,velox
+     $     ,veloy,veloz,rr,zr,rpar,gt
+
+      DOUBLE PRECISION lami(rdim),rr_x(rdim),rr_y(rdim),rr_z(rdim)
+      
+      DOUBLE PRECISION ppx(rdim,adim,wdim,zdim), ppy(rdim,adim,wdim,zdim
+     $     ), ppz(rdim,adim,wdim,zdim), pcx(rdim,adim,wdim,zdim),
+     $     pcy(rdim,adim,wdim,zdim), pcz(rdim,adim,wdim,zdim), vipx(rdim
+     $     ,adim,wdim,zdim), vipy(rdim,adim,wdim,zdim), vipz(rdim,adim
+     $     ,wdim,zdim), vicx(rdim,adim,wdim,zdim), vicy(rdim,adim,wdim
+     $     ,zdim), vicz(rdim,adim,wdim,zdim), gv(rdim,adim,wdim,zdim
+     $     ,kdim)
+
+      INTEGER zen
+
+      DOUBLE PRECISION pcxx,pcyy,pczz
+
+      DOUBLE PRECISION CONSTANT
+
+      external velox
+      external veloy
+      external veloz
+
+
+      CONSTANT=1.D+0
+      if(zen.eq.0)CONSTANT=0.D+0
+
+      dp1=dp/DBLE(pif)
+      dz1=dz/DBLE(zif)
+
+      do r=1,nr
+         do w=1,nw              ! solve for inboard sheet
+            do z=2,nz
+
+               p1=p-1
+               p2=p-2
+               p3=p-3
+               if (p1 .le. 0) p1=p1+np
+               if (p2 .le. 0) p2=p2+np
+               if (p3 .le. 0) p3=p3+np
+
+c-mb note velocities at p-1 changed to vipx
+               vx=0.25D+0*(vipx(r,p1,w,z-1)+vipx(r,p1,w,z)+ vicx(r,p,w,z
+     $              -1) +vicx(r,p,w,z) )
+               vx=vx+vinfx+velox(ppx(r,p,w,z),ppy(r,p,w,z),ppz(r,p,w,z)
+     $              ,z)
+
+               vy=0.25D+0*(vipy(r,p1,w,z-1)+vipy(r,p1,w,z)+ vicy(r,p,w,z
+     $              -1) +vicy(r,p,w,z) )
+               vy=vy+vinfy+veloy(ppx(r,p,w,z),ppy(r,p,w,z),ppz(r,p,w,z)
+     $              ,z)
+
+               vz=0.25D+0*(vipz(r,p1,w,z-1)+vipz(r,p1,w,z)+ vicz(r,p,w,z
+     $              -1) +vicz(r,p,w,z) )
+               vz=vz+vinfz+veloz(ppx(r,p,w,z),ppy(r,p,w,z),ppz(r,p,w,z)
+     $              ,z)
+
+               pcxx=pcx(r,p,w,z)
+               pcyy=pcy(r,p,w,z)
+               pczz=pcz(r,p,w,z)
+
+               pcx(r,p,w,z)=pcx(r,p1,w,z-1)+ (2.D+0/om)*(dp1*dz1/(dp1
+     $              +dz1))*vx +CONSTANT/16.D+0*( pcx(r,p,w,z)-3.D+0
+     $              *pcx(r,p1,w,z) +3.D+0*pcx(r,p2,w,z)-pcx(r,p3,w,z)
+     $              +pcx(r,p,w,z-1)-3.D+0*pcx(r,p1,w,z-1) +3.D+0*pcx(r
+     $              ,p2,w,z-1)-pcx(r,p3,w,z-1) )
+               pcy(r,p,w,z)=pcy(r,p1,w,z-1)+ (2.D+0/om)*(dp1*dz1/(dp1
+     $              +dz1))*vy +CONSTANT/16.D+0*( pcy(r,p,w,z)-3.D+0
+     $              *pcy(r,p1,w,z) +3.D+0*pcy(r,p2,w,z)-pcy(r,p3,w,z)
+     $              +pcy(r,p,w,z-1)-3.D+0*pcy(r,p1,w,z-1) +3.D+0*pcy(r
+     $              ,p2,w,z-1)-pcy(r,p3,w,z-1) )
+
+               pcz(r,p,w,z)=pcz(r,p1,w,z-1)+ (2.D+0/om)*(dp1*dz1/(dp1
+     $              +dz1))*vz +CONSTANT/16.D+0*( pcz(r,p,w,z)-3.D+0
+     $              *pcz(r,p1,w,z) +3.D+0*pcz(r,p2,w,z)-pcz(r,p3,w,z)
+     $              +pcz(r,p,w,z-1)-3.D+0*pcz(r,p1,w,z-1) +3.D+0*pcz(r
+     $              ,p2,w,z-1)-pcz(r,p3,w,z-1) )
+
+            end do
+         end do
+      end do
+
+c-mb  Hover boundary condition wake geometry:
+      call farwake(rbc,zbc,avgzbc,rad,nr,nw,pw,np,nz,nzt, pcx,pcy,pcz,
+     $     ppx,ppy,ppz,rr_x,rr_y,rr_z,dp,dz,pif,zif,lami,p)
+
+
+
+      return
+      end
