@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-05-21T10:55:23.377Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="vYc1WOQyOKQo2YFdUvv3" version="24.4.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-05-21T10:57:29.783Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" etag="g8kCxoQ-eYE8v_CujvCg" version="24.4.4" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1434" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -119,6 +119,35 @@
         </mxCell>
         <mxCell id="24jizLBud5uAbBim-qUH-26" value="Maximum iterations reached?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="315" y="430" width="90" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="24jizLBud5uAbBim-qUH-27" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="24jizLBud5uAbBim-qUH-26" target="24jizLBud5uAbBim-qUH-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="480" as="sourcePoint" />
+            <mxPoint x="200" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="200" y="475" />
+              <mxPoint x="200" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24jizLBud5uAbBim-qUH-28" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="24jizLBud5uAbBim-qUH-27">
+          <mxGeometry x="-0.2812" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24jizLBud5uAbBim-qUH-29" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="405" y="474.5" as="sourcePoint" />
+            <mxPoint x="480" y="475" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24jizLBud5uAbBim-qUH-31" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="24jizLBud5uAbBim-qUH-29">
+          <mxGeometry x="0.1472" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24jizLBud5uAbBim-qUH-32" value="Simulation complete" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="480" y="445" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
