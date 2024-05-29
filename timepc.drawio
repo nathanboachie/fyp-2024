@@ -1,9 +1,58 @@
-<mxfile host="app.diagrams.net" modified="2024-05-29T18:42:52.929Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" version="24.4.4" etag="9mc5_BhTnUR3uzcr-UVH" type="github">
+<mxfile host="app.diagrams.net" modified="2024-05-29T19:00:01.053Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="gUYkEM0FY90I6J4u33y9" version="24.4.4" type="github">
   <diagram name="Page-1" id="dYHpgIoh0OSFnbPjg0Ja">
-    <mxGraphModel>
+    <mxGraphModel dx="1434" dy="746" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-1" value="&lt;ul&gt;&lt;li&gt;Transform coordinates system&lt;/li&gt;&lt;li style=&quot;&quot;&gt;Move points outside of the fuselage (on iteration 1)&lt;/li&gt;&lt;li style=&quot;&quot;&gt;Call Panel code to retrieve off-body points&amp;nbsp;&lt;/li&gt;&lt;/ul&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="90" y="260" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-2" value="&lt;div&gt;&lt;ul&gt;&lt;li&gt;Update velocities at wake collocation points&amp;nbsp;&lt;/li&gt;&lt;li&gt;Update blade control positions&amp;nbsp;&lt;/li&gt;&lt;li&gt;Apply predictor step for wake collocation points&amp;nbsp;&lt;/li&gt;&lt;li&gt;Apply strain model for vortex filaments&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="260" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-3" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="324.5" as="sourcePoint" />
+            <mxPoint x="440" y="324.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-4" value="Has a full revolution been made,&amp;nbsp;&lt;span style=&quot;font-size: 11px; color: rgb(32, 33, 36); font-family: &amp;quot;Google Sans&amp;quot;, arial, sans-serif; text-align: left;&quot;&gt;Ψ = 360&lt;/span&gt;&lt;span style=&quot;font-weight: bold; color: rgb(95, 99, 104); font-family: arial, sans-serif; font-size: 14px; text-align: left;&quot;&gt;°&lt;/span&gt;&amp;nbsp;?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="275" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wy7dXDqhOxnMxjMCWM0Q-4" target="wy7dXDqhOxnMxjMCWM0Q-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="820" y="270" as="sourcePoint" />
+            <mxPoint x="530" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="815" y="200" />
+              <mxPoint x="555" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-6" value="Step in space by&amp;nbsp;&lt;span style=&quot;color: rgb(32, 33, 36); font-family: &amp;quot;Google Sans&amp;quot;, arial, sans-serif; text-align: left; text-wrap: wrap;&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Ψ = 10&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;font-weight: bold; color: rgb(95, 99, 104); font-family: arial, sans-serif; font-size: 14px; text-align: left; text-wrap: wrap;&quot;&gt;°&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wy7dXDqhOxnMxjMCWM0Q-5">
+          <mxGeometry x="0.0835" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-7" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wy7dXDqhOxnMxjMCWM0Q-5">
+          <mxGeometry x="-0.7519" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-10" value="&lt;ul&gt;&lt;li&gt;Update velocities at wake collocation points&amp;nbsp;&lt;/li&gt;&lt;li&gt;Update blade control positions&amp;nbsp;&lt;/li&gt;&lt;li&gt;Apply corrector step for wake collocation points&lt;/li&gt;&lt;/ul&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="700" y="430" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="wy7dXDqhOxnMxjMCWM0Q-4" target="wy7dXDqhOxnMxjMCWM0Q-10">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="410" as="sourcePoint" />
+            <mxPoint x="610" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wy7dXDqhOxnMxjMCWM0Q-12" value="For each blade, advance vortex age" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="wy7dXDqhOxnMxjMCWM0Q-11">
+          <mxGeometry x="-0.0909" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
